@@ -214,6 +214,7 @@ public class SavingsAccountReadPlatformServiceImpl implements SavingsAccountRead
                 arrayPos = arrayPos + 1;
             }
 
+            // Add logic to check for date of birth and add to sql query build
             if (searchParameters.getDateOfBirth() != null) {
                 sqlBuilder.append("and c.date_of_birth =?");
                 objectArray[arrayPos] = searchParameters.getDateOfBirth();

@@ -137,7 +137,7 @@ public class SavingsAccountsApiResource {
             @QueryParam("sortOrder") @Parameter(description = "sortOrder") final String sortOrder) {
         context.authenticatedUser().validateHasReadPermission(SavingsApiConstants.SAVINGS_ACCOUNT_RESOURCE_NAME);
 
-        LocalDate dob = LocalDate.parse(dateOfBirth);
+        LocalDate dob = LocalDate.parse(dateOfBirth); // Possibly unsafe to immediate cast param to LocalDate above, cast from string instead
 
         final SearchParameters searchParameters = SearchParameters.forSavings(sqlSearch, externalId, dob, offset, limit, orderBy, sortOrder);
 
