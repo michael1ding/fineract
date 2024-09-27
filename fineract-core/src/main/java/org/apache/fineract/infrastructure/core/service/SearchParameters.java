@@ -19,6 +19,7 @@
 package org.apache.fineract.infrastructure.core.service;
 
 import org.apache.commons.lang3.StringUtils;
+import java.time.LocalDate;
 
 public final class SearchParameters {
 
@@ -36,6 +37,8 @@ public final class SearchParameters {
     private final String sortOrder;
     private final String accountNo;
     private final String currencyCode;
+
+    private final LocalDate dateOfBirth;
 
     private final Long staffId;
 
@@ -181,7 +184,7 @@ public final class SearchParameters {
         return new SearchParameters(provisioningEntryId, officeId, productId, categoryId, offset, limit);
     }
 
-    public static SearchParameters forSavings(final String sqlSearch, final String externalId, final Integer offset, final Integer limit,
+    public static SearchParameters forSavings(final String sqlSearch, final String externalId, final LocalDate dateofBirth, final Integer offset, final Integer limit,
             final String orderBy, final String sortOrder) {
 
         final Integer maxLimitAllowed = getCheckedLimit(limit);
@@ -192,7 +195,7 @@ public final class SearchParameters {
         final Boolean orphansOnly = false;
         final boolean isSelfUser = false;
 
-        return new SearchParameters(sqlSearch, null, externalId, null, null, null, null, offset, maxLimitAllowed, orderBy, sortOrder,
+        return new SearchParameters(sqlSearch, null, externalId, dateofBirth, null, null, null, null, offset, maxLimitAllowed, orderBy, sortOrder,
                 staffId, accountNo, loanId, savingsId, orphansOnly, isSelfUser);
     }
 
@@ -269,6 +272,7 @@ public final class SearchParameters {
         this.categoryId = null;
         this.isSelfUser = isSelfUser;
         this.status = null;
+        this.dateOfBirth = null;
 
     }
 
@@ -298,6 +302,7 @@ public final class SearchParameters {
         this.categoryId = null;
         this.isSelfUser = isSelfUser;
         this.status = status;
+        this.dateOfBirth = null;
 
     }
 
@@ -327,6 +332,7 @@ public final class SearchParameters {
         this.categoryId = null;
         this.isSelfUser = isSelfUser;
         this.status = null;
+        this.dateOfBirth = null;
     }
 
     private SearchParameters(final Long provisioningEntryId, final Long officeId, final Long productId, final Long categoryId,
@@ -353,6 +359,7 @@ public final class SearchParameters {
         this.categoryId = categoryId;
         this.isSelfUser = false;
         this.status = null;
+        this.dateOfBirth = null;
 
     }
 
@@ -381,6 +388,37 @@ public final class SearchParameters {
         this.productId = null;
         this.categoryId = null;
         this.isSelfUser = false;
+        this.status = null;
+        this.dateOfBirth = null;
+
+    }
+
+    public SearchParameters(final String sqlSearch, final Long officeId, final String externalId, final LocalDate dateOfBirth, final String name, final String hierarchy,
+                            final String firstname, final String lastname, final Integer offset, final Integer limit, final String orderBy,
+                            final String sortOrder, final Long staffId, final String accountNo, final Long loanId, final Long savingsId,
+                            final Boolean orphansOnly, final boolean isSelfUser) {
+        this.sqlSearch = sqlSearch;
+        this.officeId = officeId;
+        this.externalId = externalId;
+        this.name = name;
+        this.hierarchy = hierarchy;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.offset = offset;
+        this.limit = limit;
+        this.orderBy = orderBy;
+        this.sortOrder = sortOrder;
+        this.staffId = staffId;
+        this.accountNo = accountNo;
+        this.dateOfBirth = dateOfBirth;
+        this.loanId = loanId;
+        this.savingsId = savingsId;
+        this.orphansOnly = orphansOnly;
+        this.currencyCode = null;
+        this.provisioningEntryId = null;
+        this.productId = null;
+        this.categoryId = null;
+        this.isSelfUser = isSelfUser;
         this.status = null;
 
     }
@@ -417,6 +455,10 @@ public final class SearchParameters {
         return this.currencyCode != null;
     }
 
+    public boolean isDateOfBirthPassed() {
+        return this.dateOfBirth != null;
+    }
+
     public boolean isLimited() {
         return this.limit != null && this.limit.intValue() > 0;
     }
@@ -439,6 +481,10 @@ public final class SearchParameters {
 
     public String getCurrencyCode() {
         return this.currencyCode;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return this.dateOfBirth;
     }
 
     public String getExternalId() {
